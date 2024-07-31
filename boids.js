@@ -212,4 +212,104 @@ class Boid {
 
         return steering;
     }
+
+    follow(boids, c) {
+        let perceptionRadius = c;
+        let steering = createVector();
+        let total = 0;
+
+        for (const other of boids) {
+            let distance = dist(
+                this.position.x,
+                this.position.y,
+                other.position.x,
+                other.position.y
+            );
+
+            if (
+                other !== this &&
+                distance < perceptionRadius &&
+                other.dead == false
+            ) {
+                steering.add(other.position);
+                total++;
+            }
+        }
+
+        if (total > 0) {
+            steering.div(total); //average
+            steering.sub(this.position); //desired velocity
+            steering.setMag(this.maxSpeed * 1.25);
+            steering.sub(this.velocity); //calculate force
+            steering.limit(this.maxForce);
+        }
+
+        return steering;
+    }
+
+    alignment(boids, c) {
+        let perceptionRadius = c;
+        let steering = createVector();
+        let total = 0;
+
+        for (const other of boids) {
+            let distance = dist(
+                this.position.x,
+                this.position.y,
+                other.position.x,
+                other.position.y
+            );
+
+            if (
+                other !== this &&
+                distance < perceptionRadius &&
+                other.dead == false
+            ) {
+                steering.add(other.velocity);
+                total++;
+            }
+        }
+
+        if (total > 0) {
+            steering.div(total); //average
+            steering.setMag(this.maxSpeed); //desired velocity
+            steering.sub(this.velocity); //calculate force
+            steering.limit(this.maxForce);
+        }
+
+        return steering;
+    }
+
+    sedia(boids, c) {
+        let perceptionRadius = c;
+        let steering = createVector();
+        let total = 0;
+
+        for (const other of boids) {
+            let distance = dist(
+                this.position.x,
+                this.position.y,
+                other.position.x,
+                other.position.y
+            );
+
+            if (
+                other !== this &&
+                distance < perceptionRadius &&
+                other.dead == false
+            ) {
+                steering.add(other.velocity);
+                total++;
+            }
+        }
+
+        if (total > 0) {
+            steering.div(total); //average
+            steering.setMag(this.maxSpeed); //desired velocity
+            steering.sub(this.velocity); //calculate force
+            steering.limit(this.maxForce);
+        }
+
+        return steering;
+    }
 }
